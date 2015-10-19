@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo2</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: "Arial";
+		}
+
+		.demo{
+			width: 70%;
+			margin: 20px auto 70px;
+		}
+
+		.demo p{
+			margin-bottom: 5px;
+		}
+
+		#chart{
+			width: 100%;
+		}
+	</style>
+
+</head>
+<body>
+	<div class="demo">
+		<div id="chart" style="height:400px"></div>
+		<p>Note: Six other candidates received 1% or less. </p>
+		<p>Source: WSJ/NBC News poll</p>
+		<p>Poll completed July 30, 2015</p>
+	</div>
+
+	<script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: 'http://echarts.baidu.com/build/dist'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/bar',	          
+            ],
+
+        	function(ec){
+        		var chart = ec.init(document.getElementById('chart')); 
+	        	var option = {
+	        		    title : {
+	        		        text: 'Preference among GOP primary voters',
+	        		        textStyle:{
+	        		        	fontFamily: 'helvetica',
+	        		        	fontSize: 15,
+	        		        },	        		     
+	        		        y : 10,
+	        	
+	        		    },
+	        		    tooltip : {
+	        		        trigger: 'item',	        		  
+	        		        backgroundColor: '#fff',
+	        		        borderColor: '#ccc',
+	        		        borderWidth: 1.5,
+
+	        		        formatter: function(params){
+	        		        	return params.value + '%';
+	        		        },
+	        		        textStyle : {
+	        		        	color : 'rgb(198,73,70)',
+	        		        	fontWeight: 'bolder',
+	        		        	fontFamily:'Arial',
+	        		        },
+	        		    },	        		    
+	        		   	grid: {
+	        		   		borderWidth: 0,
+	        		   	},
+	        		    calculable : true,
+	        		    xAxis : [
+	        		        {
+	        		            type : 'value',
+	        		            splitLine: {
+	        		            	lineStyle : {
+	        		            		type : "dashed",
+	        		            		color : "#ccc",
+	        		            		width : 1,
+	        		            	}
+	        		            },	        		          
+	        		            axisLine:'none',  
+
+	        		        }
+	        		    ],
+	        		    yAxis : [
+	        		        {
+	        		            type : 'category',
+	        		            splitLine: 'none',
+	        		            axisTick: 'none', 
+	        		            data : ['John Kasich','Rick Perry','Christie','Marco Rubio','Rand Paul','Huckabee','Ted Cruz','Ben Carson','Jeb Bush','Scott Walker','Donald'],
+	        		            axisLabel: {
+		    			       	   	textStyle:{
+		    			       	   		fontFamily:'Arial',
+		    			       	   		fontWeight:'bolder',
+		    			       	   		
+	    			       	   		},
+	    			       	   	},
+    			       	    },   
+	        		        
+	        		    ],
+	        		    series : [
+	        		        {
+	        		            name:'percentage',
+	        		            type:'bar',
+	        		            itemStyle : {
+	        		            	normal :{
+	        		            		color :"rgb(198,73,70)",
+	        		            	}
+	        		            },
+	        		            barCategoryGap: '50%',
+	        		            data:[3, 3, 3, 5, 6, 6,9,10,14,15,19]
+	        		        },  
+	        		    ]
+	        		};
+	
+        		chart.setOption(option); 
+        		window.onresize = chart.resize;    		
+        	}
+		);
+	</script>
+</body>
+</html>

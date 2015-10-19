@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo1</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: "Arial";
+		}
+
+		.demo{
+			width: 50%;
+			margin: 20px auto 70px;
+		}
+
+		.demo p{
+			margin-bottom: 5px;
+			margin-left: 60px;
+		}
+
+		#chart{
+			width: 100%;
+		}
+	</style>
+
+</head>
+<body>
+	<div class="demo">
+		<div id="chart" style="height:400px;max-width:700px"></div>
+		<p>Source: WSJ/NBC News poll</p>
+		<p>Poll completed July 30, 2015</p>
+	</div>
+
+	<script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: 'http://echarts.baidu.com/build/dist'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/bar',
+            ],
+
+        	function(ec){
+        		var chart = ec.init(document.getElementById("chart"));
+        		var option = {
+        			title:{
+        				text:'Support for Iran nuclear deal',
+        				textStyle:{
+        					fontFamily:'helvetica',
+        					fontSize:15,
+        				},
+        				x:50,
+        			},
+    			    tooltip : {
+    			       trigger: 'item',
+    			       backgroundColor: 'rgba(255,255,255,0.8)',
+    			       borderColor: '#ccc',
+    			       borderWidth: 1.5,
+    			       formatter: 
+    			       function(params){
+    			       		var colorList = ['#C1232B','#B5C334','#FCCE10'];
+    			       		var color = colorList[params.dataIndex];
+    			       		var res = '<div style="color:'+color+'">';
+    			       		res += params.name+':'+params.value + '%';
+    			       		res += '</div>';
+	    		        	return  res;
+	    		        },
+	    		        textStyle : {
+	    		        	color : '#000',
+	    		        	fontWeight: '700',
+	    		        	fontFamily:'Arial',
+	    		        	fontSize: '16px'
+	    		        },
+    			   },		 
+    			   toolbox: {
+    			       show : false,   			     
+    			   },
+    			   calculable : true,
+    			   	grid: {
+	        		   		borderWidth: 0,
+	        		   	},
+    			   xAxis : [
+    			       {
+    			       	    type : 'category',
+    			       	    splitLine: 'none',
+    			       	    axisLine: 'none',
+    			       	    axisTick: 'none',
+    			       	    boundaryGap: 30, 
+    			       	    axisLabel: {
+	    			       	   	textStyle:{
+	    			       	   		fontFamily:'Arial',
+	    			       	   		fontWeight:'bolder',
+	    			       	   	}
+    			       	    },   			          
+    			            data : ['Support','Oppose','Don\'t know enough']
+    			       }
+    			   ],
+    			   yAxis : [
+    			       {
+    			       	   type : 'value',
+    			       	   axisLine: 'none',    			           
+    			           splitLine: {
+	        		            	lineStyle : {
+	        		            		type : "dashed",
+	        		            		color : "#ccc",
+	        		            		width : 1,
+	        		            	},
+	        		        },   			  
+    			       }
+    			   ],
+    			   series : [
+    			       {
+    			           name:'Support for Iran nuclear deal',
+    			           type:'bar',
+    			           data:[35,33,32],
+    			           barCategoryGap : "40%",
+    			           itemStyle:{
+	    			           	normal:{
+	    			           		color: function(params){
+		   		                       var colorList = ['#C1232B','#B5C334','#FCCE10'];
+		   		                       return colorList[params.dataIndex]
+		   		                   	},
+	    			           	}
+    			           }          
+    			       },   			       
+    			   ]     			
+        		};
+
+        		chart.setOption(option);
+        		window.onresize = chart.resize;       			
+        	}    
+		);
+	</script>
+</body>
+</html>
