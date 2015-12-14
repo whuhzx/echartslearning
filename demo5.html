@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo1</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: 'microsoft yahei',Arial,Verdana;
+		}
+
+		.demo{
+			width: 70%;
+			margin: 20px auto 70px;
+		}
+
+		.demo p{
+			margin-left: 70px;
+		}
+
+		.source{
+			margin-bottom: 5px;
+			font-size: 16px;
+		}
+
+		.intro{
+			font-size: 14px;
+		}
+		
+		#chart1{
+			width: 100%;
+		}
+		
+		a,a:link{
+			text-decoration: none;
+			color: #188F83;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="demo1" class="demo">
+		<div id="chart1" style="height:500px"></div>
+		<p class="source">原图：<a href="http://data.163.com/15/0812/07/B0Q6I1IU00014MTN.html" target="_blank">网易数读</a></p>
+		<p class="intro">近十分之一的中国儿童在“流动”中度过童年</p>
+	</div>
+
+	
+	<script type="text/javascript" src="./build/echarts.js"></script>
+	<script type="text/javascript" src="./build/theme/custom.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: './build'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/line',
+	            // 使用柱状图就加载bar模块，按需加载
+            ],
+
+        	function(ec,theme){
+        		var chart1 = ec.init(document.getElementById('chart1'),custom_theme); 
+        		var linestyle={
+        			width: 0,
+        		}
+	        	option1 = {
+	        	
+	        		title:{
+	        			text:'近十分之一的中国儿童在“流动”中度过童年',
+	        			subtext:'数据来源：《人口学刊》， 2008年第六期',
+	        			textStyle:{
+	        				color: '#555',
+	        				fontSize: 22,
+	        				
+	        			},
+	        			x: 70,
+	        		},
+	        		grid: {
+	        			y: 130,
+
+	        		},
+	        	    tooltip : {
+	        	        trigger: 'axis',
+	        	        formatter: function(params){
+	        	        	var res = '流动' + params[0].seriesName + ' : ' + params[0].data + '%' + '<br>';
+	        	        	res += params[1].seriesName + ' : ' + params[1].data + '%' + '<br>';
+	        	        	res += params[2].seriesName + ' : ' + params[2].data + '%' + '<br>';
+	        	        	res += params[3].seriesName + ' : ' + params[3].data + '%' + '<br>';
+	        	        	res += params[4].seriesName + ' : ' + params[4].data + '%' + '<br>';
+	        	        	res += params[5].seriesName + ' : ' + params[5].data + '%' + '<br>';
+	        	        	res += params[6].seriesName + ' : ' + params[6].data + '%' + '<br>';
+	        	        	res += params[7].seriesName + ' : ' + params[7].data + '%' + '<br>';
+	        	        	res += params[8].seriesName + ' : ' + params[8].data + '年' ;
+	        	        	
+
+	        	        	return res
+	        	        }
+	        	    },
+	        	    legend: {
+	        	    	x: 70,
+	        	    	y: 70,
+	        	    	itemWidth: 20,
+	        	    	itemHeight: 20,	        
+	        	    	padding: 30,
+	        	        data:[{name:'半年以下',icon:'bar'},{name:'半年至一年',icon:'bar'},{name:'一年至两年',icon:'bar'},{name:'两年至三年',icon:'bar'},{name:'三年至四年',icon:'bar'},{name:'四年至五年',icon:'bar'},{name:'五年至六年',icon:'bar'},{name:'六年以上',icon:'bar'},{name:'平均流动时间',icon:'bar'}],	        	        
+	        	    },	        	    
+	        	    calculable : true,
+	        	    xAxis : [
+	        	        {
+	        	            type : 'category',
+
+	        	            boundaryGap : false,
+	        	            data : ['1岁','3岁','5岁','7岁','11岁','13岁'],
+	        	            axisLabel: {
+	        	            	textStyle:{
+	        	            		fontSize: 14,
+	        	            		fontWeight: 700,
+	        	            	}
+	        	            }
+	        	        },	        	       
+
+	        	    ],
+	        	    yAxis : [
+	        	        {
+	        	            type : 'value',
+	        	            max: 100,
+	        	            axisLabel:{
+	        	            	formatter:function(value){
+	        	            		return value + '%'
+	        	            	},
+	        	            	textStyle:{
+	        	            		color: '#000',
+	        	            	}
+	        	            }
+	        	        },
+	        	        {
+	        	        	type: 'value',
+	        	        	
+	        	        	
+	        	        	show: true,
+	        	        	axisLabel: 'none',
+	        	        	max: 6,
+	        	        	splitNumber: 3,
+	        	        }
+	        	    ],
+	        	    series : [
+	        	        {
+	        	            name:'半年以下',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#FFA9FF',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#FFA9FF'}
+	        	            	}
+	        	            },
+	        	            data:[0.2, 0.2, 0.5, 0.3, 0.2, 0.1]
+	        	        },
+	        	        {
+	        	            name:'半年至一年',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#F26A5F',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#F26A5F'}
+	        	            	}
+	        	            },
+	        	            data:[52.7, 23.6, 18.9, 16.9, 15.7, 16.3]
+	        	        },
+	        	        {
+	        	            name:'一年至两年',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#E3D26A',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#E3D26A'}
+	        	            	}
+	        	            },
+	        	            data:[47.1, 20.2, 17.7, 15.5, 14.9, 16.2]
+	        	        },
+	        	        {
+	        	            name:'两年至三年',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#188F83',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#188F83'}
+	        	            	}
+	        	            },
+	        	            data:[0, 31.5, 12.3, 12.6, 14, 13.2]
+	        	        },
+	        	        {
+	        	            name:'三年至四年',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#75C7BB',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#75C7BB'}
+	        	            	}
+	        	            },
+	        	            data:[0, 24.5, 12.6, 9.3, 8.6, 9]
+	        	        },
+	        	        {
+	        	            name:'四年至五年',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#9378A1',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#9378A1'}
+	        	            	}
+	        	            },
+	        	            data:[0, 0, 19.5, 7.3, 6.4, 5.3]
+	        	        },
+	        	        {
+	        	            name:'五年至六年',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#E19B5A',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#E19B5A'}
+	        	            	}
+	        	            },
+	        	            data:[0, 0, 18.5, 6.9, 6, 5.3]
+	        	        },
+	        	        {
+	        	            name:'六年以上',
+	        	            type:'line',
+	        	            stack: '全部',
+	        	            symbol: 'emptyCircle',
+	        	            itemStyle: {
+	        	            	normal: {
+	        	            		color: '#C0BFBF',
+	        	            		lineStyle: linestyle,
+	        	            		areaStyle: {type: 'default',color: '#C0BFBF'}
+	        	            	}
+	        	            },
+	        	            data:[0, 0, 0, 31.2, 34.2, 34.6]
+	        	        },
+	        	        {
+	        	        	name: '平均流动时间',
+	        	        	type: 'line',	        	    
+	        	        	yAxisIndex: 1,
+	        	        	z: 5,
+	        	        	symbol: 'emptyCircle',
+	        	        	symbolSize: 3,
+	        	        	
+
+	        	     		itemStyle: {
+	        	            	normal: {
+	        	            		color:'#000',
+	        	            		label:{
+	        	            			show: true,
+	        	            			position: 'top',
+	        	            			formatter:function(params){
+	        	            				return params.value + '年';
+	        	            			},
+	        	            			textStyle:{
+	        	            				fontSize: 12,
+	        	            				fontFamily: 'microsoft yahei, Arial',
+	        	            				fontWeight: 700,
+	        	            			}
+	        	            		},
+	        	            		lineStyle: {
+	        	            			width: 2,
+	        	            			color: '#000',
+	        	            		},
+	        	            		
+	        	            	}
+	        	            },
+	        	        	data: [1.1,2.1,3.1,3.9,5.2,5.4]
+	        	        }
+
+	        	    ]
+	        	};
+	        	                    
+
+           		chart1.setOption(option1); 
+        		
+        		window.onresize = function(){
+        			chart1.resize();
+        			
+        		}
+        	}
+
+		);
+	</script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo1</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: 'microsoft yahei',Arial,Verdana;
+		}
+
+		.demo{
+			width: 70%;
+			margin: 20px auto 70px;
+		}
+
+		.demo p{
+			margin-left: 70px;
+		}
+
+		.source{
+			margin-bottom: 5px;
+			font-size: 16px;
+		}
+
+		.intro{
+			font-size: 14px;
+		}
+		
+		#chart1{
+			width: 100%;
+		}
+		
+		a,a:link{
+			text-decoration: none;
+			color: #188F83;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="demo1" class="demo">
+		<div id="chart1" style="height:400px"></div>
+		<p class="source"><a href="http://www.nytimes.com/interactive/2013/06/24/us/affirmative-action-bans.html?_r=1&" target="_blank">原图：纽约时报</a></p>
+		<p class="intro">How Minorities Have Fared in States With Affirmative Action Bans</p>
+	</div>
+
+	
+	<script type="text/javascript" src="./build/echarts.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: './build'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/line',
+	            // 使用柱状图就加载bar模块，按需加载
+            ],
+
+        	function(ec){
+        		var chart1 = ec.init(document.getElementById('chart1')); 
+	        	var option = {
+
+	        				tooltip:{
+	        					trigger:'axis',
+	        					axisPointer:{
+	        						type:'line',
+	        						lineStyle:{
+	        							color: '#2E8975'
+	        						},
+
+	        					},
+	        					backgroundColor:'#2E8975',
+	        					textStyle:{
+	        						fontFamily:'Arial',
+	        					},
+	        					formatter:function(params){	
+	        						var  res = '<span style="font-weight:bolder;font-size:14px">'+params[1].value+'</span>'+'% ';
+	        						res += "of the state's college-aged residents are Hispanic, "+"</br>";
+	        						res +='<span style="font-weight:bolder;font-size:14px">'+params[0].value+'</span>'+'% ';
+	        						res += 'of freshment are Hispanic.';
+	        						return res;			
+	        					}
+	        				},
+
+						    legend: {
+						    	show:false,
+						        data:['resident','freshment']
+						    },
+						   
+						    calculable : true,
+
+						    grid:{
+						    	borderWidth: 0,
+						    },
+
+						    xAxis : [
+						        {
+						            type : 'category',
+						            boundaryGap : false,
+						            axisLine:{
+						            	lineStyle:{
+						            		color: '#000',
+						            		width: 1,
+						            	},
+						            	onZero: false,
+						            },
+						            axisTick:{
+						            	show:false,
+						            },
+						            axisLabel:{
+						            	interval: 4,
+						            	textStyle:{
+							            	fontFamily: 'Arial',
+							            	fontSize: 12,
+							            	fontWeight: 'bolder',
+						            	},
+						            },
+						            splitLine: 'none',
+						           						   
+						            data : [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011],
+						        }
+						    ],
+						    yAxis : [
+						        {
+						            type : 'value',
+						            name : 'HISPANIC',
+						            splitLine: 'none',
+						            axisLine: 'none',
+						            axisLabel:{
+						            	formatter:'{value}'+'%',
+						            	textStyle:{
+							            	fontFamily: 'Arial',
+							            	fontSize: 12,
+							            	fontWeight: 'bolder',
+						            	},
+						            }
+						        }
+						    ],
+						    series : [
+						        {
+						            name:'resident',
+						            type:'line',
+						            stack: 'resident',
+						            symbol: 'emptyCircle',
+
+						            symbolSize: 4,
+
+						            itemStyle:{
+						            	normal:{
+						            	
+						            		lineStyle:{
+						            			color:'#ccc',
+						            			type:'dashed',
+						            			width:3,
+						            		},
+						            		areaStyle:{
+						            			color:'rgb(200,226,211)',
+						            		},
+						            		
+						            		borderColor: '#ccc',
+						            		borderWidth: 1,
+						            		
+						            	},
+						            	
+
+						            },
+						          
+						            data:[35, 36, 39, 39, 40, 41, 41, 42, 41, 41, 41, 43, 43, 43, 44, 44, 45, 45, 46, 46, 48, 49],
+						            
+						        },
+						        {
+						            name:'freshment',
+						            type:'line',
+						            stack: 'freshment',
+						            symbol: 'emptyCircle',
+						            symbolSize: 4,
+						            z:3,
+						            
+						           	itemStyle:{
+						            	normal:{
+						            		lineStyle:{
+						            			color:'rgb(105,117,116)',
+						            			type:'solid',
+						            			width:6,
+						            		},
+						            		areaStyle:{
+						            			color:'rgb(138,188,160)',
+						            		},
+						            		borderColor: 'rgb(105,117,116)',
+						            		borderWidth: 1,
+						            	}
+						            },
+
+						            data:[23, 23, 17, 21, 16, 17, 16, 14, 9, 10, 10, 11, 12, 12, 10, 11, 12, 12, 11, 11, 11, 11],
+						        },
+						       
+						    ]
+						};
+
+           		chart1.setOption(option); 
+        		
+        		window.onresize = function(){
+        			chart1.resize();
+        			
+        		}
+        	}
+
+		);
+	</script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo10</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: 'microsoft yahei',Arial,Verdana;
+		}
+
+		.demo{
+			width: 70%;
+			margin: 20px auto ;
+		}
+
+		.demo p{
+			margin-left: 70px;
+		}
+
+		.source{
+			margin-bottom: 5px;
+			font-size: 16px;
+		}
+
+		.intro{
+			font-size: 14px;
+		}
+		
+		#chart1{
+			width: 100%;
+		}
+		
+		a,a:link{
+			text-decoration: none;
+			color: #188F83;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="demo1" class="demo">
+		<div id="chart1" style="height:600px"></div>
+		<p class="source">原图：<a href="http://data.163.com/13/0711/21/93HJOM5900014MTN.html" target="_blank">网易数读</a></p>
+		<p class="intro">美国赔偿：慈善高效，保险守诺，政府靠谱</p>
+	</div>
+
+	
+	<script type="text/javascript" src="./build/echarts.js"></script>
+	<script type="text/javascript" src="./build/theme/custom.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: './build'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/treemap',
+	            // 使用柱状图就加载bar模块,按需加载
+            ],
+
+        	function(ec,theme){
+        		var chart1 = ec.init(document.getElementById('chart1'),custom_theme); 
+        		
+	        	option1 = {
+	        	    title : {
+	        	    	x: 'center',
+	        	        text: '911事件受害者所获赔偿',
+	        	        textStyle:{
+	        	        	fontSize: 20,
+	        	        },
+	        	        subtext: '数据来源：兰德研究所'
+	        	    },
+	        	    tooltip : {
+	        	        trigger: 'item',
+	        	        formatter: function(params){
+	        	        	if (params.value>100){
+	        	        		return params.name + ": "+params.value/100 + '亿美元'
+	        	        	}else{
+	        	        		return params.name + ": "+params.value/10 + '千万美元'
+	        	        	}
+	        	        	
+	        	        }
+
+	        	    },
+	        	    calculable : false,
+	        	    series : [
+	        	        {
+	        	            name:'赔偿金额',
+	        	            type:'treemap',
+	        	            itemStyle: {
+	        	                normal: {
+	        	                    label: {
+	        	                        show: true,
+	        	                        textStyle:{
+	        	                        	fontSize: 16,
+	        	                        	fontFamily: 'microsoft yahei, Arial',
+	        	                        },
+	        	                        formatter: "{b}"
+	        	                    },
+	        	                    borderWidth: 0,	   
+	        	                    breadcrumb:{
+		        	                	textStyle: {
+		        	                		fontFamily: 'microsoft yahei, Arial',
+		        	                		fontSize: 16,		        	                		
+		        	                		color: '#75c7bb'
+		        	                	}
+	        	                	}     	               
+	        	                },
+	        	                emphasis: {
+	        	                    label: {
+	        	                        show: true
+	        	                    },	 
+	        	                    breadcrumb:{
+		        	                	textStyle: {
+		        	                		fontFamily: 'microsoft yahei, Arial',
+		        	                		fontSize: 16,	        	                		
+		        	                		color: '#75c7bb'
+		        	                	}
+	        	                	}                              
+	        	                },
+
+	        	            },
+	        	            data:[
+	        	                {
+	        	                    name: '保险',
+	        	                    itemStyle: {
+	        	                        normal: {
+	        	                            color: '#FBB03B',
+	        	                        }
+	        	                    },
+	        	                    value: 19570,
+	        	                    children: [
+	        	                        {
+	        	                            name: '\n死亡或严重\n受伤的平民',
+	        	                            value: 2000,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#FCC876'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '因暴露在有害环境中受伤的人员',
+	        	                            value: 60,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		
+	        	                            		color:'#FEE3BB'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '遭受情感创伤的人',
+	        	                            value: 30,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#FDF6F6'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '当地居民',
+	        	                            value: 500,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#FDD456'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '业务受影响的企业',
+	        	                            value: 16980,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#FBB03B'
+	        	                            	}
+	        	                            }
+	        	                        }
+	        	                    ]
+	        	                },
+	        	                {
+	        	                    name: '政府',
+	        	                    itemStyle: {
+	        	                        normal: {
+	        	                            color: '#009696',
+	        	                        }
+	        	                    },
+	        	                    value: 15800,
+	        	                    children: [
+	        	                        {
+	        	                            name: '死亡或严重受伤的平民',
+	        	                            value: 5960,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#3F8989'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '死亡或严重受伤的救护人员',
+	        	                            value: 1420,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#0F6B6B'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '因暴露在有害环境中受伤的人员',
+	        	                            value: 540,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#579898'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '遭受情感创伤的人',
+	        	                            value: 140,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#B7D3D3'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '当地居民',
+	        	                            value: 340,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#9FC4C4'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '工作受影响的人员',
+	        	                            value: 1160,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		
+	        	                            		color:'#6FA6A6'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '业务受影响的企业',
+	        	                            value: 6240,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#009696'
+	        	                            	}
+	        	                            }
+	        	                        }
+	        	                    ]
+	        	                },
+	        	                {
+	        	                    name: '慈善',
+	        	                    itemStyle: {
+	        	                        normal: {
+	        	                            color: '#D63333',
+	        	                        }
+	        	                    },
+	        	                    value: 2690,
+	        	                    children: [
+	        	                        {
+	        	                            name: '死亡或严重受伤的平民',
+	        	                            value: 710,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#D63333'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '死亡或严重受伤的救护人员',
+	        	                            value: 500,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#B0272D'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '因暴露在有害环境中受伤的人员',
+	        	                            value: 60,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#E09396'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '遭受情感创伤的人',
+	        	                            value: 40,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#E6A9AB'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '当地居民',
+	        	                            value: 80,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#FCC'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '工作受影响的人员',
+	        	                            value: 540,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#D44D4D'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '业务受影响的企业',
+	        	                            value: 110,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		
+	        	                            		color:'#EFC9CA'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                        {
+	        	                            name: '其他',
+	        	                            value: 650,
+	        	                            itemStyle:{
+	        	                            	normal:{
+	        	                            		color:'#C73D42'
+	        	                            	}
+	        	                            }
+	        	                        },
+	        	                    ]
+	        	                },
+	        	                
+	        	            ]
+	        	        }
+	        	    ]
+	        	};
+	        	                    
+	        	                    
+	        	                    
+	        	                    
+
+           		chart1.setOption(option1); 
+        		
+        		window.onresize = function(){
+        			chart1.resize();
+        			
+        		}
+        	}
+
+		);
+	</script>
+</body>
+</html>

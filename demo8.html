@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo8</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: 'microsoft yahei',Arial,Verdana;
+		}
+
+		.demo{
+			width: 90%;
+			margin: 20px auto 70px;
+		}
+
+		.demo p{
+			margin-left: 70px;
+		}
+
+		.source{
+			margin-bottom: 5px;
+			font-size: 16px;
+		}
+
+		.intro{
+			font-size: 14px;
+		}
+		
+		#chart1{
+			width: 100%;
+		}
+		
+		a,a:link{
+			text-decoration: none;
+			color: #188F83;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="demo1" class="demo">
+		<div id="chart1" style="height:750px"></div>
+		<p class="source">原图：<a href="http://data.163.com/14/0220/22/9LIG95J200014MTN.html" target="_blank">网易数读</a></p>
+		<p class="intro">发达国家看病有多难：仅6成人可立刻获得预约</p>
+	</div>
+
+	
+	<script type="text/javascript" src="./build/echarts.js"></script>
+	<script type="text/javascript" src="./build/theme/custom.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: './build'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/scatter',
+	            // 使用柱状图就加载bar模块,按需加载
+            ],
+
+        	function(ec,theme){
+        		var chart1 = ec.init(document.getElementById('chart1'),custom_theme); 
+        		var axisFont = {
+			        		    	fontFamily:'microsoft yahei',
+			        		    	fontSize:12,
+			        		    	color: '#000',
+			        		    	fontWeight:700,
+			        		     };
+
+			    var labelStyle= {
+        	            			show: true,
+        	            			position: 'inside',
+        	            			formatter:function(params){
+        	            				return params.data[2]
+        	            			},
+        	            			textStyle:{
+        	            				fontFamily:'Arial',
+        	            				fontSize: 12,
+        	            				color: '#000',
+        	            			}	        	            			
+	        	            	}    		  
+
+			    var circleSize = function(value){
+        		            	if(value[2] <= 100){
+        		            		return value[2] / 2.2;
+        		            	}else if(value[2] > 100){
+        		            		return value[2] / 210;
+        		            	}else{
+        		            		return 'n/a'
+        		            	}
+        		            };
+
+
+        		option1 = {
+        		    title : {
+        		        text : '发达国家看病有多难：仅6成人可立刻获得预约',
+        		        subtext: '数据来源：the Commonwealth Fund',
+        		        x: 'center',
+        		        
+        		    },
+
+        		    tooltip : {
+        		        trigger: 'item',
+        		        formatter:function(params){        		        	
+        		        	
+        		        	var yitem = ['能在生病当天或第二<br>天预约到医生','非法定工作日较难<br>得到治疗','为预约专家门诊<br>等待2个月以上','为择期手术等待<br>4个月以上','曾因费用问题无法<br>及时就医','医疗投入占GDP<br>的比重','人均医疗投入','人均实际看病<br>支付']
+        		        	res = params.seriesName + '<br>'
+        		        	res += yitem[params.dataIndex] + " : " + params.data[2]
+
+        		        	if(params.dataIndex < 6){
+        		        		res += '%'
+        		        	} else{
+        		        		res += '美元'
+        		        	}        		        	        		        	
+        		        	return res
+        		        }       		        
+        		    },
+        		          		         		   
+        		    grid:{
+        		    	x:230,
+        		    	y:100,
+        		    },
+
+        		    xAxis : [        		        
+        		        {
+	    		            type : 'value',   		           
+	    		            data : [1,2,3,4,5,6,7,8,9,10,11],
+	    		            min:0,
+	    		            max:11,
+	    		            splitNumber:11,
+	        		        axisLabel:{	        		        
+		        		        formatter:function(value){
+			        		      	return [' ','美国','英国','澳大利亚','加拿大','法国','德国','荷兰','新西兰','挪威','瑞典','瑞士'][value];
+			        		    },
+			        		    textStyle:axisFont,
+
+			        		},
+			        		axisLine:{
+        		            	show: false,
+        		            	
+        		            },
+			        		splitLine:{
+			        			show:true,
+			        			lineStyle:{
+			        				color: '#c0c0c0',
+			        				width: 1,
+			        			}
+			        		}        		                		        	
+        		        }
+        		    ],
+
+        		    yAxis : [        		       
+        		      {
+        		            type : 'value',       		           
+        		            data :  [1,2,3,4,5,6,7,8],
+        		            min:0,
+        		            max:8,
+        		            splitNumber: 8,
+        		            axisLabel:{
+        		            	formatter:function(value){
+        		            		return[' ','人均实际看病支付（美元）','人均医疗投入（美元）','医疗投入占GDP的比重（%）','曾因费用问题无法及时就医（%）','为择期手术等待4个月以上（%）','为预约专家门诊等待2个月以上（%）','非法定工作日较难得到治疗（%）','能在生病当天或第二天预约到医生（%）'][value];	
+        		            	},
+        		            	textStyle:axisFont,
+        		            },
+        		            axisLine:{
+        		            	show: false,
+
+        		            },
+        		            splitLine:{
+        		            	show: true,
+			        			lineStyle:{
+			        				color: '#c0c0c0',
+			        				width: 1,
+			        			}
+			        		} 
+        		        }
+        		    ],
+        		    animation: false,
+
+        		    series : [
+        		        {
+        		            name:'美国',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#33CCCC',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },       		            	  
+        		   			data:[[1,8,57],[1,7,63],[1,6,9],[1,5,7],[1,4,33],[1,3,17.7],[1,2,8508],[1,1,987]],
+        		        },
+        		        {
+        		            name:'英国',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#9999FF',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[2,8,70],[2,7,38],[2,6,19],[2,5,21],[2,4,5],[2,3,9.4],[2,2,3405],[2,1,338]],
+        		        },
+        		        {
+        		            name:'澳大利亚',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#CCFFCC',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[3,8,65],[3,7,59],[3,6,28],[3,5,18],[3,4,22],[3,3,8.9],[3,2,3800],[3,1,733]],
+        		        },
+        		        {
+        		            name:'加拿大',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#FFCC99',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[4,8,45],[4,7,65],[4,6,41],[4,5,25],[4,4,15],[4,3,11.2],[4,2,4522],[4,1,666]],
+        		        },
+        		        {
+        		            name:'法国',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#BDCCDB',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[5,8,62],[5,7,62],[5,6,28],[5,5,7],[5,4,13],[5,3,11.6],[5,2,4118],[5,1,307]],
+        		        },
+        		        {
+        		            name:'德国',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#FF99CC',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[6,8,66],[6,7,57],[6,6,7],[6,5,0],[6,4,25],[6,3,11.3],[6,2,4495],[6,1,593]],
+        		        },
+        		        {
+        		            name:'荷兰',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#FF6600',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[7,8,72],[7,7,38],[7,6,22],[7,5,8],[7,4,14],[7,3,11.9],[7,2,5099],[7,1,'-']],
+        		        },
+        		        {
+        		            name:'新西兰',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#99CC00',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[8,8,78],[8,7,38],[8,6,22],[8,5,8],[8,4,14],[8,3,10.3],[8,2,3182],[8,1,348]],
+        		        },
+        		        {
+        		            name:'挪威',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#E8794E',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[9,8,45],[9,7,45],[9,6,34],[9,5,21],[9,4,11],[9,3,9.3],[9,2,5669],[9,1,'-']],
+        		        },
+        		        {
+        		            name:'瑞典',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#A0E8A4',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[10,8,57],[10,7,68],[10,6,31],[10,5,22],[10,4,10],[10,3,9.5],[10,2,5669],[10,1,635]],
+        		        },
+        		        {
+        		            name:'瑞士',
+        		            type:'scatter',
+        		            symbol:'circle',
+        		            symbolSize:circleSize,
+        		            itemStyle:{
+	        	            	normal:{
+	        	            		color: '#FF4E4D',
+	        	            		label:labelStyle,
+	        	            	}
+	        	            },        		  
+        		   			data:[[11,8,'-'],[11,7,43],[11,6,5],[11,5,7],[11,10,10],[11,3,11],[11,2,5643],[11,1,1455]],
+        		        },
+        		      
+        		       
+        		    ]
+        		};
+        		                    
+           		chart1.setOption(option1); 
+        		
+        		window.onresize = function(){
+        			chart1.resize();
+        			
+        		}
+        	}
+
+		);
+	</script>
+</body>
+</html>
