@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo1</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: 'microsoft yahei',Arial,Verdana;
+		}
+
+		.demo{
+			width: 80%;
+			margin: 20px auto 70px;
+		}
+
+		.demo p{
+			margin-left: 200px;
+		}
+
+		.source{
+			margin-bottom: 5px;
+			font-size: 16px;
+		}
+
+		.intro{
+			font-size: 14px;
+		}
+		
+		#chart1{
+			width: 100%;
+		}
+		
+		a,a:link{
+			text-decoration: none;
+			color: #188F83;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="demo1" class="demo">
+		<div id="chart1" style="height:1450px"></div>
+		<p class="source">原图：<a href="http://data.163.com/15/0930/05/B4O38SH900014MTN.html" target="_blank">网易数读</a></p>
+		<p class="intro">中国人购买iPhone仍然非常吃力</p>
+	</div>
+
+	
+	<script type="text/javascript" src="./build/echarts.js"></script>
+	<script type="text/javascript" src="./build/theme/custom.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: './build'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/pie',
+	            // 使用柱状图就加载bar模块，按需加载
+            ],
+
+        	function(ec,theme){
+        		var chart1 = ec.init(document.getElementById('chart1'),custom_theme); 
+
+        		var nameStyle = {
+        			normal: {
+        			  	color: '#fff',
+        			    label: {
+        			    	show:true,        			    	
+        			  		position: 'center',
+        			  		formatter:function(params){       		      			
+        			  			return params.seriesName;
+        			  		},
+        			    	textStyle:{
+        			    		fontFamily: 'microsoft yahei, Arial',
+        			    		fontSize: 16,
+        			    		fontWeight: 700,
+        			    		color: '#000'
+        			    	}
+        			    },
+        			    labelLine: {show:false}
+        			}
+        		};
+        		var firstStyle = {
+        		    normal: {
+        		      	color: '#99C2D9',
+        		        label: {
+        		        	show:false,       		        	       		      		       		        	
+        		        },
+        		        labelLine: {show:false}
+        		    }
+        		};
+
+        		var secondStyle = {
+        		    normal: {
+        		      	color: '#C4A88F',
+        		        label: {show:false},
+        		        labelLine: {show:false}
+        		    }
+        		};
+
+        		var thirdStyle = {
+        		    normal: {
+        		      	color: '#E5C97B',
+        		        label: {show:false},
+        		        labelLine: {show:false}
+        		    }
+        		};
+
+        		var fourthStyle = {
+        		    normal: {
+        		      	color: '#B8B7B6',
+        		        label: {show:false},
+        		        labelLine: {show:false}
+        		    }
+        		};
+
+
+        		var placeHolderStyle = {
+        		    normal : {
+        		        color: 'rgba(0,0,0,0)',
+        		        label: {show:false},
+        		        labelLine: {show:false},
+        		    },
+        		    emphasis : {
+        		        color: 'rgba(0,0,0,0)'
+        		    }
+        		};
+        		option1 = {
+        			title:{
+        				text: '全球各大城市购买力对比',
+        				subtext: '图为购买此类商品所需的平均工时\n数据来源：瑞士联合银行(UBS)',
+        				x:'center'
+        			},
+        		    
+        		    tooltip : {
+        		        show: true,
+        		        formatter: function(params){ 
+        		        	if (params.name == "1部iPhone"){
+        		        		return params.name + " : " + params.value + "小时";
+        		        	}else{
+        		        		return params.name + " : " + params.value + "分钟";
+        		        	}      		        	
+        		        	
+        		        }
+        		    },
+        		    legend: {
+        		     	
+        		       	orient: 'vertical',
+        		       	y: 100,
+        		       	x:'66%',
+        		        itemGap:20,
+        		        data:['1公斤大米','1个面包','1个巨无霸','1部iPhone']
+        		    },
+        		    
+        		    series : [
+        		    	{
+        		    	  name:'城市',
+    		    	      type:'pie',
+    		    	      center: ['30%',175],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:5, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:55,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ],
+
+
+        		    	},
+        		    	{
+    		    	      name:'城市',
+    		    	      type:'pie',
+    		    	      center: ['30%',175],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:60, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:0,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ],
+    		    	      markLine: {
+    		    	      	symbol: 'none',
+    		    	      	itemStyle:{
+    		    	      		normal: {
+    		    	      			lineStyle:{
+    		    	      				color:'#99C2D9'
+    		    	      			},
+    		    	      			label:{
+    		    	      				show: true,
+    		    	      				formatter: '60分钟',
+    		    	      				position: 'right',
+    		    	      				textStyle:{
+    		    	      					fontFamily:'microsoft yahei, Arial',
+    		    	      					fontSize: 12,
+    		    	      				}
+    		    	      			}
+    		    	      		}
+    		    	      		
+    		    	      	},
+    		    	      	data : [
+    		    	      	    [
+    		    	      	        {x: '33%', y: 175},
+    		    	      	        {x: '50%', y: 175}
+    		    	      	    ],    		    	      	   
+    		    	      	]
+    		    	      }
+        		    	},
+        		    	{
+        		            name:'城市',
+        		            type:'pie',
+        		            center: ['30%',175],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:60, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:0,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ],
+        		            markLine: {
+    		    	      	symbol: 'none',
+    		    	      	itemStyle:{
+    		    	      		normal: {
+    		    	      			lineStyle:{
+    		    	      				color:'#C4A88F'
+    		    	      			},
+    		    	      			label:{
+    		    	      				show: true,
+    		    	      				formatter: '60分钟',
+    		    	      				position: 'right',
+    		    	      				textStyle:{
+    		    	      					fontFamily:'microsoft yahei, Arial',
+    		    	      					fontSize: 12,
+    		    	      				}
+    		    	      			}
+    		    	      		}
+    		    	      		
+    		    	      	},
+    		    	      	data : [
+    		    	      	    [
+    		    	      	        {x: '33%', y: 140},
+    		    	      	        {x: '50%', y: 140}
+    		    	      	    ],    		    	      	   
+    		    	      	]
+    		    	      }
+
+        		        },
+
+        		        {
+        		            name:'城市',
+        		            type:'pie', 
+        		            center: ['30%',175],     
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:60, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:0,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ],
+        		            markLine: {
+    		    	      	symbol: 'none',
+    		    	      	itemStyle:{
+    		    	      		normal: {
+    		    	      			lineStyle:{
+    		    	      				color:'#E5C97B'
+    		    	      			},
+    		    	      			label:{
+    		    	      				show: true,
+    		    	      				formatter: '60分钟',
+    		    	      				position: 'right',
+    		    	      				textStyle:{
+    		    	      					fontFamily:'microsoft yahei, Arial',
+    		    	      					fontSize: 12,
+    		    	      				}
+    		    	      			}
+    		    	      		}
+    		    	      		
+    		    	      	},
+    		    	      	data : [
+    		    	      	    [
+    		    	      	        {x: '33%', y: 115},
+    		    	      	        {x: '50%', y: 115}
+    		    	      	    ],    		    	      	   
+    		    	      	]
+    		    	      }
+        		        },
+
+        		        {
+        		            name:'城市',
+        		            type:'pie',
+        		            center: ['30%',175],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:60,
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:0,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ],
+        		            markLine: {
+    		    	      	symbol: 'none',
+    		    	      	itemStyle:{
+    		    	      		normal: {
+    		    	      			lineStyle:{
+    		    	      				color:'#B8B7B6'
+    		    	      			},
+    		    	      			label:{
+    		    	      				show: true,
+    		    	      				formatter: '60小时',
+    		    	      				position: 'right',
+    		    	      				textStyle:{
+    		    	      					fontFamily:'microsoft yahei, Arial',
+    		    	      					fontSize: 12,
+    		    	      				}
+    		    	      			}
+    		    	      		}
+    		    	      		
+    		    	      	},
+    		    	      	data : [
+    		    	      	    [
+    		    	      	        {x: '33%', y: 255},
+    		    	      	        {x: '50%', y: 255}
+    		    	      	    ],    		    	      	   
+    		    	      	]
+    		    	      }
+        		        },
+
+
+
+        		    	{
+        		    	  name:'苏黎世',
+    		    	      type:'pie',
+    		    	      center: ['30%',400],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:5, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:55,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+
+        		    	},
+        		    	{
+    		    	      name:'苏黎世',
+    		    	      type:'pie',
+    		    	      center: ['30%',400],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:5, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:55,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+        		            name:'苏黎世',
+        		            type:'pie',
+        		            center: ['30%',400],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:5, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:55,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+        		        {
+        		            name:'苏黎世',
+        		            type:'pie', 
+        		            center: ['30%',400],     
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:11, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:49,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+        		        {
+        		            name:'苏黎世',
+        		            type:'pie',
+        		            center: ['30%',400],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:22,
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:38,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+
+        		        {
+        		    	  name:'东京',
+    		    	      type:'pie',
+    		    	      center: ['70%',400],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:10, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:50,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+
+        		    	},
+        		    	{
+    		    	      name:'东京',
+    		    	      type:'pie',
+    		    	      center: ['70%',400],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:10, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:50,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+        		            name:'东京',
+        		            type:'pie',
+        		            center: ['70%',400],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:14, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:46,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+        		        {
+        		            name:'东京',
+        		            type:'pie', 
+        		            center: ['70%',400],     
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:10, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:50,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+        		        {
+        		            name:'东京',
+        		            type:'pie',
+        		            center: ['70%',400],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:35, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:25,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+
+        		        {
+        		    	  name:'纽约',
+    		    	      type:'pie',
+    		    	      center: ['30%',650],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:10, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:50,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+    		    	      name:'纽约',
+    		    	      type:'pie',
+    		    	      center: ['30%',650],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:16, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:44,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+        		            name:'纽约',
+        		            type:'pie',
+        		            center: ['30%',650],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:12, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:48,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'纽约',
+        		            type:'pie', 
+        		            center: ['30%',650],     
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:11, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:49,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'纽约',
+        		            type:'pie',
+        		            center: ['30%',650],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:27.5, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:32.5,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+
+        		        {
+        		    	  name:'伦敦',
+    		    	      type:'pie',
+    		    	      center: ['70%',650],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:10, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:50,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+    		    	      name:'伦敦',
+    		    	      type:'pie',
+    		    	      center: ['70%',650],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:16, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:44,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+        		            name:'伦敦',
+        		            type:'pie',
+        		            center: ['70%',650],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:6, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:54,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'伦敦',
+        		            type:'pie', 
+        		            center: ['70%',650],     
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:12, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:48,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'伦敦',
+        		            type:'pie',
+        		            center: ['70%',650],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:42.5, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:17.5,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+
+        		        {
+        		    	  name:'多伦多',
+    		    	      type:'pie',
+    		    	      center: ['30%',900],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:10, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:50,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+    		    	      name:'多伦多',
+    		    	      type:'pie',
+    		    	      center: ['30%',900],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:7, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:53,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+        		            name:'多伦多',
+        		            type:'pie',
+        		            center: ['30%',900],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:12, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:48,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'多伦多',
+        		            type:'pie', 
+        		            center: ['30%',900],     
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:15, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:45,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'多伦多',
+        		            type:'pie',
+        		            center: ['30%',900],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:37.5, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:22.5,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+
+        		        {
+        		    	  name:'香港',
+    		    	      type:'pie',
+    		    	      center: ['70%',900],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:10, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:50,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+    		    	      name:'香港',
+    		    	      type:'pie',
+    		    	      center: ['70%',900],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:13, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:47,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+        		            name:'香港',
+        		            type:'pie',
+        		            center: ['70%',900],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:18, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:42,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'香港',
+        		            type:'pie', 
+        		            center: ['70%',900],     
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:9, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:51,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'香港',
+        		            type:'pie',
+        		            center: ['70%',900],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:53, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:7,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+
+        		        {
+        		    	  name:'北京',
+    		    	      type:'pie',
+    		    	      center: ['30%',1230],
+    		    	      clockWise: true,
+    		    	      radius : [20, 25],
+    		    	      itemStyle : nameStyle,
+    		    	      tooltip:{
+    		    	      	show: false,
+    		    	      },
+    		    	      data:[
+    		    	          {
+    		    	              value:10, 
+    		    	              name:'其它'
+    		    	          },
+    		    	          {
+    		    	              value:50,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+    		    	      name:'北京',
+    		    	      type:'pie',
+    		    	      center: ['30%',1230],
+    		    	      clockWise: true,
+    		    	      radius : [25, 33],
+    		    	      itemStyle : firstStyle,
+    		    	      data:[
+    		    	          {
+    		    	              value:36, 
+    		    	              name:'1公斤大米'
+    		    	          },
+    		    	          {
+    		    	              value:24,
+    		    	              name:'invisible',
+    		    	              tooltip:{
+    		    	              	show: false,
+    		    	              },
+    		    	              itemStyle : placeHolderStyle
+    		    	          }
+    		    	      ]
+        		    	},
+        		    	{
+        		            name:'北京',
+        		            type:'pie',
+        		            center: ['30%',1230],
+        		            clockWise: true,
+        		            radius : [45, 53],
+        		            itemStyle : secondStyle,
+        		            data:[
+        		                {
+        		                    value:40, 
+        		                    name:'1个面包'
+        		                },
+        		                {
+        		                    value:20,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'北京',
+        		            type:'pie', 
+        		            center: ['30%',1230],
+        		            clockWise: true,  		         
+        		            radius : [65, 73],       		            
+        		            itemStyle : thirdStyle,
+        		            data:[
+        		                {
+        		                    value:42, 
+        		                    name:'1个巨无霸'
+        		                },
+        		                {
+        		                    value:18,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'北京',
+        		            type:'pie',
+        		            center: ['30%',1230],
+        		          	clockWise: true,
+        		            radius : [85, 93],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:184, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:0,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'北京',
+        		            type:'pie',
+        		            center: ['30%',1230],
+        		          	clockWise: true,
+        		            radius : [105, 113],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:184, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:0,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'北京',
+        		            type:'pie',
+        		            center: ['30%',1230],
+        		          	clockWise: true,
+        		            radius : [125, 133],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:184, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:0,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+        		        {
+        		            name:'北京',
+        		            type:'pie',
+        		            center: ['30%',1230],
+        		          	clockWise: true,
+        		            radius : [145, 153],
+        		            itemStyle : fourthStyle,
+        		            data:[
+        		                {
+        		                    value:184, 
+        		                    name:'1部iPhone'
+        		                },
+        		                {
+        		                    value:2576,
+        		                    name:'invisible',
+        		                    tooltip:{
+        		                    	show: false,
+        		                    },
+        		                    itemStyle : placeHolderStyle
+        		                }
+        		            ]
+        		        },
+
+
+
+        		        
+        		        
+        		      
+        		    ]
+        		};
+	        	                    
+
+           		chart1.setOption(option1); 
+        		
+        		window.onresize = function(){
+        			chart1.resize();
+        			
+        		}
+        	}
+
+		);
+	</script>
+</body>
+</html>

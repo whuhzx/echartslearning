@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts demo7</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		body{
+			font-size: 12px;
+			font-family: 'microsoft yahei',Arial,Verdana;
+		}
+
+		.demo{
+			width: 70%;
+			margin: 20px auto 70px;
+		}
+
+		.demo p{
+			margin-left: 70px;
+		}
+
+		.source{
+			margin-bottom: 5px;
+			font-size: 16px;
+		}
+
+		.intro{
+			font-size: 14px;
+		}
+		
+		#chart1{
+			width: 100%;
+		}
+		
+		a,a:link{
+			text-decoration: none;
+			color: #188F83;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="demo1" class="demo">
+		<div id="chart1" style="height:500px"></div>
+		<p class="source">原图：<a href="http://data.163.com/14/0701/03/A01MVR4100014MTN.html" target="_blank">网易数读</a></p>
+		<p class="intro">给毒品打分：毒品们有多毒？</p>
+	</div>
+
+	
+	<script type="text/javascript" src="./build/echarts.js"></script>
+	<script type="text/javascript" src="./build/theme/custom.js"></script>
+	<script type="text/javascript">
+		require.config({
+			paths: {
+				echarts: './build'
+			}
+		});
+
+		require(
+            [
+	            'echarts',
+	            'echarts/chart/scatter',
+	            // 使用柱状图就加载bar模块,按需加载
+            ],
+
+        	function(ec,theme){
+        		var chart1 = ec.init(document.getElementById('chart1'),custom_theme); 
+        		var linestyle={
+        			width: 0,
+        		}
+	        	
+	        	option1 = {
+	        		title:{
+	        			text: '给毒品打分，毒品们有多毒？',
+	        			x: 'center',
+	        			textStyle:{
+	        				fontSize:20,
+	        			}
+	        		},
+	        	    tooltip : {
+	        	        trigger: 'item',
+	        	        formatter:function(params){
+	        	        	res = params.value[3] + '<br>'
+	        	        	res += '健康危害指数： '+ params.value[0] + '<br>'
+	        	        	res += '社会危害指数： '+ params.value[1] + '<br>'
+	        	        	res += '依赖性指数： '+ params.value[2] + '<br>'
+	        	        	return res
+	        	        }
+
+	        	    },
+	        	    dataRange: {
+	        	        min: 0,
+	        	        max: 3,
+	        	        x: 'right',
+	        	        y: '230',
+	        	        text:['高','低'],           // 文本,默认为数值文本
+	        	        color:['#E1789E','#F3D84D'],
+	        	        calculable : true
+	        	    },
+	        	    xAxis : [
+	        	        {
+	        	            type : 'value',
+	        	            name: '健康危害\n指数',	        	        
+	        	            nameTextStyle:{
+	        	            	color: '#E9453C',
+	        	            	fontSize: 14,
+	        	            	fontWeight: 700,
+	        	            	fontFamily: 'microsoft yahei, Arial'
+	        	            },
+	        	            axisLine:{
+	        	            	lineStyle:{
+	        	            		color:'#333',
+	        	            		width:2,
+	        	            	}
+	        	            },
+	        	            axisTick:{
+	        	            	show: true,
+	        	            	inside: true,
+	        	            	length: 12,
+	        	            }
+	        	        
+	        	        }
+	        	    ],
+	        	    yAxis : [
+	        	        {
+	        	            type : 'value',
+	        	            name: '社会危害指数',	        	        
+	        	            nameTextStyle:{
+	        	            	color: '#33CCCC',
+	        	            	fontSize: 14,
+	        	            	fontWeight: 700,
+	        	            	fontFamily: 'microsoft yahei, Arial'
+	        	            },
+	        	            axisLine:{
+	        	            	lineStyle:{
+	        	            		color:'#333',
+	        	            		width:2,
+	        	            	}
+	        	            },
+	        	            axisTick:{
+	        	            	show: true,
+	        	            	inside: true,
+	        	            	length: 12,
+	        	            }
+	        	          
+	        	           
+	        	        }
+	        	    ],
+	        	    
+	        	    series : [
+	        	        {
+	        	            name:'毒品',
+	        	            type:'scatter',
+	        	            symbolSize:15,
+	        	            itemStyle:{
+	        	            	normal:{
+	        	            		label:{
+	        	            			show: true,
+	        	            			position: 'top',
+	        	            			formatter:function(params){
+	        	            				return params.data[3]
+	        	            			},
+	        	            			textStyle:{
+	        	            				fontFamily:'microsoft yahei,Arial',
+	        	            				fontSize: 12,
+	        	            				color: '#000',
+	        	            			}
+	        	            			
+	        	            		}
+	        	            	}
+	        	            },
+	        	            data: [
+	        	            	[0.50,0.85,1.3,'阿拉伯茶'],
+								[0.93,0.97,0.51,'Rush'],
+								[0.86,1.30,1.50,'迷奸药'],
+								{
+									value:[1.56,1.09,1.49,'摇头丸'],
+									itemStyle:{
+										normal:{
+											label:{
+												show: true,
+												position: 'right',
+												formatter:function(params){
+													return params.value[3]
+												},
+												textStyle:{
+													fontFamily:'microsoft yahei,Arial',
+													fontSize: 12,
+													color: '#000',
+												}
+												
+											}
+										}
+									},
+								},
+								
+								[0.99,1.50,0.50,'大麻'],
+								[1.13,1.32,1.5,'LSD'],
+								[1.24,1.42,2.4,'烟草'],
+								[1.28,1.52,1.3,'有机溶剂'],
+								[1.32,0.97,1.6,'利他林'],
+								{
+									value:[1.44,1.06,1.5,'灵异丸'],
+									itemStyle:{
+										normal:{
+											label:{
+												show: true,
+												position: 'bottom',
+												formatter:function(params){
+													return params.value[3]
+												},
+												textStyle:{
+													fontFamily:'microsoft yahei,Arial',
+													fontSize: 12,
+													color: '#000',
+												}
+												
+											}
+										}
+									},
+								},
+								[1.45,1.13,0.56,'类固醇兴奋剂'],
+								[1.60,1.49,2.0,'丁丙诺啡'],
+								[1.81,1.50,2.1,'安非他明'],
+								[1.63,1.65,2.1,'苯二氮平类药物'],
+								[1.4,2.21,2.3,'酒精'],
+								[1.86,1.87,2.6,'美沙酮'],
+								[2,1.69,2.2,'K粉'],
+								[2.23,2.0,2.1,'巴比妥类药物'],
+								[2.33,2.17,2.7,'可卡因']
+								]
+	        	        }
+	        	    ]
+	        	};
+
+	        	setTimeout(function (){
+	        	    var _ZR = chart1.getZrender();
+	        	    var TextShape = require('zrender/shape/Text');
+	        	  
+	        	    _ZR.addShape(new TextShape({
+	        	        style : {
+	        	            x : _ZR.getWidth() / 1.07,
+	        	            y : 330,
+	        	          	color: '#E1789E',
+	        	            text : '依\n赖\n性\n指\n数',
+	        	            textAlign : 'top',
+	        	            textFont:'14px microsoft yahei',	        	                  	            
+	        	        },
+	        	        hoverable :false,
+	        	    }));
+	        	    
+	        	    _ZR.refresh();
+	        	}, 1000);
+	        	                    
+	        	                    
+
+           		chart1.setOption(option1); 
+        		
+        		window.onresize = function(){
+        			chart1.resize();
+        			
+        		}
+        	}
+
+		);
+	</script>
+</body>
+</html>
